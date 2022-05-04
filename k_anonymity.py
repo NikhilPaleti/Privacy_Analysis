@@ -4,15 +4,9 @@ import pandas as pd
 
 df_main = pd.read_csv("./data/HRDataset_v14.csv")
 
-categorical = set(('RecruitmentSource','PerformanceScore', 'ManagerName', 'Employee_Name', 'LastPerformanceReview_Date'))
+categorical = set(('Employee_Name','Position', 'State', 'DOB', 'Sex', 'MaritalDesc', 'CitizenDesc', 'HispanicLatino', 'RaceDesc', 'DateofHire', 'DateofTermination', 'EmploymentStatus', 'Department', 'ManagerName', 'RecruitmentSource', 'PerformanceScore', 'LastPerformanceReview_Date' ))
 
 def split(df, partition, column):
-    """
-    :param        df: The dataframe to split
-    :param partition: The partition to split
-    :param    column: The column along which to split
-    :        returns: A tuple containing a split of the original partition
-    """
     dfp = df[column][partition]
     if column in categorical:
         values = dfp.unique()
@@ -26,13 +20,6 @@ def split(df, partition, column):
         return (dfl, dfr)
 
 def get_spans(df, partition, scale=None):
-    """
-    :param        df: the dataframe for which to calculate the spans
-    :param partition: the partition for which to calculate the spans
-    :param     scale: if given, the spans of each column will be divided
-                      by the value in `scale` for that column
-    :        returns: The spans of all columns in the partition
-    """
     spans = {}
     for column in df.columns:
         if column in categorical:
@@ -45,26 +32,11 @@ def get_spans(df, partition, scale=None):
     return spans
 
 def is_k_anonymous(df, partition, sensitive_column, k=3):
-    """
-    :param               df: The dataframe on which to check the partition.
-    :param        partition: The partition of the dataframe to check.
-    :param sensitive_column: The name of the sensitive column
-    :param                k: The desired k
-    :returns               : True if the partition is valid according to our k-anonymity criteria, False otherwise.
-    """
     if len(partition) < k:
         return False
     return True
 
 def partition_dataset(df, feature_columns, sensitive_column, scale, is_valid):
-    """
-    :param               df: The dataframe to be partitioned.
-    :param  feature_columns: A list of column names along which to partition the dataset.
-    :param sensitive_column: The name of the sensitive column (to be passed on to the `is_valid` function)
-    :param            scale: The column spans as generated before.
-    :param         is_valid: A function that takes a dataframe and a partition and returns True if the partition is valid.
-    :returns               : A list of valid partitions that cover the entire dataframe.
-    """
     finished_partitions = []
     partitions = [df.index]
     while partitions:
