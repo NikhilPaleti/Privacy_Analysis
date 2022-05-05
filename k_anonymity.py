@@ -3,8 +3,7 @@ import numpy as np
 import pandas as pd
 
 df_main = pd.read_csv("./data/HRDataset_v14.csv")
-
-categorical = set(('Employee_Name','Position', 'State', 'DOB', 'Sex', 'MaritalDesc', 'CitizenDesc', 'HispanicLatino', 'RaceDesc', 'DateofHire', 'DateofTermination', 'EmploymentStatus', 'Department', 'ManagerName', 'RecruitmentSource', 'PerformanceScore', 'LastPerformanceReview_Date' ))
+categorical = set(('Employee_Name','Position', 'State', 'Zip', 'DOB', 'Sex', 'MaritalDesc', 'CitizenDesc', 'HispanicLatino', 'RaceDesc', 'DateofHire', 'DateofTermination','TermReason' ,'EmploymentStatus', 'Department', 'ManagerName', 'RecruitmentSource', 'PerformanceScore', 'LastPerformanceReview_Date' ))
 
 def split(df, partition, column):
     dfp = df[column][partition]
@@ -59,6 +58,6 @@ full_spans = get_spans(df_main, df_main.index)
 
 
 
-feature_columns = ['age', 'education-num']
+feature_columns = ['EmpID', 'Salary']
 sensitive_column = 'income'
 finished_partitions = partition_dataset(df_main, feature_columns, sensitive_column, full_spans, is_k_anonymous)
