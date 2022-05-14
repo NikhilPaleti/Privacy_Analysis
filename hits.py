@@ -25,16 +25,8 @@ class Graph:
         parent_node.link_child(child_node)
         child_node.link_parent(parent_node)
 
-    def display(self):
-        for node in self.nodes:
-            print(f'{node.name} links to {[child.name for child in node.children]}')
-
     def sort_nodes(self):
         self.nodes.sort(key=lambda node: int(node.name))
-
-    def display_hub_auth(self):
-        for node in self.nodes:
-            print(f'{node.name}  Auth: {node.old_auth}  Hub: {node.old_hub}')
 
     def normalize_auth_hub(self):
         auth_sum = sum(node.auth for node in self.nodes)
@@ -44,21 +36,11 @@ class Graph:
             node.auth /= auth_sum
             node.hub /= hub_sum
 
-    def normalize_pagerank(self):
-        pagerank_sum = sum(node.pagerank for node in self.nodes)
-
-        for node in self.nodes:
-            node.pagerank /= pagerank_sum
-
     def get_auth_hub_list(self):
         auth_list = np.asarray([node.auth for node in self.nodes], dtype='float32')
         hub_list = np.asarray([node.hub for node in self.nodes], dtype='float32')
 
         return np.round(auth_list, 3), np.round(hub_list, 3)
-
-    def get_pagerank_list(self):
-        pagerank_list = np.asarray([node.pagerank for node in self.nodes], dtype='float32')
-        return np.round(pagerank_list, 3)
 
 
 class Node:
