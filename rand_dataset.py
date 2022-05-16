@@ -2,8 +2,6 @@
 import numpy as np
 import pandas as pd
 import random
-import matplotlib.pyplot as plt
-import matplotlib.patches as patches
 
 fin_list = []
 votes_list = []
@@ -15,6 +13,7 @@ df_main.drop(df_main[df_main['Salary'] >= 125000].index, inplace = True)
 
 df_main.drop(df_main[df_main['EmploymentStatus'] == "Voluntarily Terminated" ].index, inplace = True)
 df_main.drop(df_main[df_main['EmploymentStatus'] == "Terminated for Cause"].index, inplace = True)
+
 
 for i in range(len(df_main)):
     # fin_list[df_main["EmpID"].iloc[i] - 10000] = True
